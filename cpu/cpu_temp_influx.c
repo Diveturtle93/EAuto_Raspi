@@ -12,9 +12,9 @@ int main() {
 	influx_client_t c;
 	c.host = strdup("127.0.0.1");
 	c.port = 8086;
-	c.db = strdup("GPSTest");
-	c.usr = strdup("admin");
-    c.pwd = strdup("test");
+	c.db = strdup("Audi");
+	c.usr = strdup("Audi");
+    c.pwd = strdup("EAudiA2");
 
 	// Check the CPU temp.
 	fp = fopen("/sys/class/thermal/thermal_zone0/temp", "r");

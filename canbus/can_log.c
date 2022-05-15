@@ -62,7 +62,7 @@ int main(void)
 
 				// Log Canlog start
 				datei = fopen(filename, "a");
-				fprintf(datei, "Starte Can-Log", date);
+				fprintf(datei, "Starte Can-Log: \t%s\n", date);
 				fclose(datei);
 				
 				// Starte Canlog
@@ -81,7 +81,7 @@ int main(void)
 
 				// Log Canlog stop
 				datei = fopen(filename, "a");
-				fprintf(datei, "Stoppe Can-Log", date);
+				fprintf(datei, "Stoppe Can-Log: \t%s\n", date);
 				fclose(datei);
 				
 				// Stope Canlog
