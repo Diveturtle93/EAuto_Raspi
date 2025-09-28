@@ -33,8 +33,6 @@ printf "Installation vom AudiPi wird gestartet\n"
 
 confirm
 
-#apt update && apt upgrade
-
 for val in ${PkgArray[@]}; do
 	dpkg -s "$val" &> /dev/null
         if [ $? -eq 0 ]; then
