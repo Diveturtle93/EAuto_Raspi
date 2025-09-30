@@ -54,6 +54,17 @@ Grafana dient zur Anzeige von Daten. Das Programm stellt diese auf einer grafisc
 Oberfläche zur Verfügung. Dabei sucht es sich die Daten aus der InfluxDB. Die grafische
 Oberfläche muss zuvor benutzerdefiniert aufgesetzt werden.
 
+## GPIOs
+
+Am Raspberry Pi sind mehrere GPIOs, bei welchen der Pinzustand regelmäßig geprüft werden
+muss. Dafür wurde ein kleines Skript geschrieben, welches die Pinzustände einließt. Dieses
+wird dann über Telegraf ausgeführt und die Ausgabe wird an die InfluxDB weitergegeben.
+
+Das Skript macht nichts anderes als die GPIOs über `pigpio` einzulesen und danach über eine
+`print`-Ausgabe zurückzugeben. Telegraf ließt diese ein und schreibt sie in die Datenbank.
+
+Das Skript wird unter '/usr/local/bin' abgelegt.
+
 ## GPS
 
 Der Raspberry Pi kann über eine serielle Schnittstelle die GPS Daten empfangen und einlesen.
@@ -119,9 +130,9 @@ Als Daten kommen unterschiedliche Paket mit Informationen an. Diese haben die
 - $GPRMC
 - $GPVTG
 
-Die wichtigste Nachricht davon ist die `$GPGGA` alle anderen Nachrichten enthalten
-Informationen, die hier nicht weiter betrachtet werden. Nachlesen was die Nachrichten und
-ihre Daten bedeuten, kann man [hier](https://aprs.gids.nl/nmea/).
+Die Nachricht auf die hier näher eingegangen wird sind `$GPGGA`, `GPVTG`und `GPRMC`. Alle
+anderen Nachrichten enthalten Informationen, die hier nicht weiter betrachtet werden.
+Nachlesen was die Nachrichten und ihre Daten bedeuten, kann man [hier](https://aprs.gids.nl/nmea/).
 
 ###### GPGGA
 
@@ -132,4 +143,26 @@ Aufgebaut ist die Nachricht wir folgt.
 
 ```
 $GPGGA,UTC of position fix,Latitude,Direction of latitude,Longitude,Direction of longitude,GPS Quality indicator,Number of SVs in use, range from 00 through to 24+,HDOP,Orthometric height,unit of measure for orthometric height is meters,Geoid separation,geoid separation measured in meters
+```
+
+###### GPVTG
+
+Diese Nachricht beinhaltet die Geschwindigkeit in Knoten und Kilometer pro Stunde sowie
+die Richtung in die man sich bewegt in Grad.
+
+Aufgebaut ist die Nachricht wir folgt.
+
+```
+$GPVTG, Track made degrees True, True track indicator, Track made good degrees Magnetic, Magnetic track indicator, Speed over ground kn, Nautical speed indicator, Speed km/h, Speed indicator
+```
+
+###### GPRMC
+
+Diese Nachricht beinhaltet die Geschwindigkeit in Knoten und Kilometer pro Stunde sowie
+die Richtung in die man sich bewegt in Grad.
+
+Aufgebaut ist die Nachricht wir folgt.
+
+```
+$GPRMC, UTC of position, Position status, Latitude, Latitude direction, Longitude, Longitude direction, Speed over ground kn, Track made degrees True, Date, Magnetic variation, Magnetic variation direction, Positioning system mode indicator
 ```
