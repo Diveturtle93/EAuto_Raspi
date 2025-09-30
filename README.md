@@ -133,3 +133,26 @@ Aufgebaut ist die Nachricht wir folgt.
 ```
 $GPGGA,UTC of position fix,Latitude,Direction of latitude,Longitude,Direction of longitude,GPS Quality indicator,Number of SVs in use, range from 00 through to 24+,HDOP,Orthometric height,unit of measure for orthometric height is meters,Geoid separation,geoid separation measured in meters
 ```
+
+## Lüfter
+
+Der vorhandene Lüfter wird mit einem Skript unter Python angesprochen. Dabei wird dann die
+Temperatur mit zwei Schellwerten verglichen. Ist die Temperatur höher als der obere
+Schwellwert, so wird der Lüfter eingeschaltet. Dieser bleibt dann solange an, bis der untere
+Schwellwert unterschritten ist. Damit nicht ständig der Lüfter ein-, ausgeschaltet wird,
+sind die Grenzen so zu wählen, dass sich ein kleines Schaltefenster ergibt. Zur Ansteuerung
+der GPIOs wird die Bibliothek `pigpio` genutzt.
+
+Aktuell liegen die Temperaturwerte bei 35°C für das Ausschalten und bei 50°C für das
+Einschalten.
+
+Zum Aktivieren des Skriptes muss noch ein Autostart hinzugefügt werden. Dafür wird in dem
+Ordner `.config/autostart/` eine Datei mit dem Start angelegt. Ist der Ordner nicht
+vorhanden, so kann dieser einfach angelegt werden. Die Datei heißt `clock.desktop`.
+
+```
+[Desktop Entry]
+Type=Application
+Name=Clock
+Exec=/usr/bin/python3 /home/frederik/fan_pigpios.py
+```
