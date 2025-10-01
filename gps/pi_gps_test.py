@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-'''
-GPS Interfacing with Raspberry Pi using Pyhton
-http://www.electronicwings.com
-'''
-import sys                  #import system package
-import json					#import json package
-import gps					#import gpsd package
+
+import sys
+import json
+import gps
+import time
 
 def main():
     # Verbindung zu gpsd herstellen
@@ -30,6 +28,8 @@ def main():
                 # JSON-Ausgabe fuer Telegraf
                 print(json.dumps(data))
                 sys.exit(0)  # nur einmal ausgeben und beenden
+
+            time.sleep(0.5)
 
     except KeyboardInterrupt:
         sys.exit(0)

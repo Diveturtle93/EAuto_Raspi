@@ -104,7 +104,8 @@ der richtige Kanal im Skript gewählt werden.
 ### Test
 
 Mit dem folgende Befehl kann getestet werden, ob auf der seriellen Schnittstelle auch Daten
-vom GPS-Sensor ankommen und diese richtig interpretiert werden.
+vom GPS-Sensor ankommen und diese richtig interpretiert werden. Die Daten können auf
+`/dev/serial0` oder `/dev/ttyS0` sein.
 
 ```
 sudo gpsmon /dev/serial0
@@ -117,7 +118,17 @@ Schnittstelle auszulesen. Dafür wird dann das Programm 'minicom' verwendet.
 minicom -b 9600 -o -D /dev/ttyS0
 ```
 
-Hier werden die Daten der seriellen Schnittstelle direkt angezeigt.
+Hier werden die Daten der seriellen Schnittstelle direkt angezeigt. Ebenfalls ist es möglich
+sich die Ausgabe der GPS-Daten über `gpsd` anzuzeigen. Dafür muss noch dauerhaft konfiguriert
+werden. Dafür ist es notwendig in der Datei `/etc/default/gpsd` folgende Änderung vorzunehmen:
+
+```
+START_DAEMON="true"
+GPSD_OPTIONS="-n"
+DEVICES="/dev/ttyS0"
+```
+
+Danach kann man mit dem Befehl `cgps -s` sich die Daten direkt über `gpsd` ansehen.
 
 ### Nachrichten
 
@@ -166,6 +177,15 @@ Aufgebaut ist die Nachricht wir folgt.
 ```
 $GPRMC, UTC of position, Position status, Latitude, Latitude direction, Longitude, Longitude direction, Speed over ground kn, Track made degrees True, Date, Magnetic variation, Magnetic variation direction, Positioning system mode indicator
 ```
+
+### PPS-Signal
+
+Der Mikroe-1032 am Raspberry Pi hat einen PPS-Ausgang. Mit diesem kann am Raspberry Pi die
+Eingabe einer Zeitsyncronisierung getriggert werden. Dafür ließt der Raspberry Pi dann die
+GPS Daten aus um aus diesen das aktuelle Datum zu extrahieren.
+
+Dafür weden zwei Pakete benötigt. Einmal `chrony`, welches die Zeitsyncronisierung durchführt.
+Und einmal `pps-tools`, mit dem die Daten ausgelesen und interpretiert werden können.
 
 ## Lüfter
 
