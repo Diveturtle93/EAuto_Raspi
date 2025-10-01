@@ -117,7 +117,17 @@ Schnittstelle auszulesen. Dafür wird dann das Programm 'minicom' verwendet.
 minicom -b 9600 -o -D /dev/ttyS0
 ```
 
-Hier werden die Daten der seriellen Schnittstelle direkt angezeigt.
+Hier werden die Daten der seriellen Schnittstelle direkt angezeigt. Ebenfalls ist es möglich
+sich die Ausgabe der GPS-Daten über `gpsd` anzuzeigen. Dafür muss noch dauerhaft konfiguriert
+werden. Dafür ist es notwendig in der Datei `/etc/default/gpsd` folgende Änderung vorzunehmen:
+
+```
+START_DAEMON="true"
+GPSD_OPTIONS="-n"
+DEVICES="/dev/ttyS0"
+```
+
+Danach kann man mit dem Befehl `cgps -s` sich die Daten direkt über `gpsd` ansehen.
 
 ### Nachrichten
 
