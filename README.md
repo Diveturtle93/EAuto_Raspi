@@ -166,3 +166,25 @@ Aufgebaut ist die Nachricht wir folgt.
 ```
 $GPRMC, UTC of position, Position status, Latitude, Latitude direction, Longitude, Longitude direction, Speed over ground kn, Track made degrees True, Date, Magnetic variation, Magnetic variation direction, Positioning system mode indicator
 ```
+
+## Lüfter
+
+Der vorhandene Lüfter wird mit einem Skript unter Python angesprochen. Dabei wird dann die
+Temperatur mit zwei Schellwerten verglichen. Ist die Temperatur höher als der obere
+Schwellwert, so wird der Lüfter eingeschaltet. Dieser bleibt dann solange an, bis der untere
+Schwellwert unterschritten ist. Damit nicht ständig der Lüfter ein-, ausgeschaltet wird,
+sind die Grenzen so zu wählen, dass sich ein kleines Schaltefenster ergibt. Zur Ansteuerung
+der GPIOs wird die Bibliothek `pigpio` genutzt.
+
+Aktuell liegen die Temperaturwerte bei 35°C für das Ausschalten und bei 50°C für das
+Einschalten.
+
+Zum Aktivieren des Skriptes muss noch ein Autostart hinzugefügt werden. Dafür wird in dem
+Ordner `.config/autostart/` eine Datei mit dem Start angelegt. Ist der Ordner nicht
+vorhanden, so kann dieser einfach angelegt werden. Die Datei heißt `clock.desktop`.
+
+```
+[Desktop Entry]
+Type=Application
+Name=Clock
+Exec=/usr/bin/python3 /home/frederik/fan_pigpios.py
