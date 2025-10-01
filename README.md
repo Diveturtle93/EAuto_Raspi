@@ -187,4 +187,4 @@ vorhanden, so kann dieser einfach angelegt werden. Die Datei heißt `clock.deskt
 [Desktop Entry]
 Type=Application
 Name=Clock
-Exec=/usr/bin/python3 /home/frederik/fan_pigpios.py
+Exec=/usr/bin/python3 /home/pi/fan_pigpios.py
