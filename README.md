@@ -186,3 +186,25 @@ GPS Daten aus um aus diesen das aktuelle Datum zu extrahieren.
 
 Dafür weden zwei Pakete benötigt. Einmal `chrony`, welches die Zeitsyncronisierung durchführt.
 Und einmal `pps-tools`, mit dem die Daten ausgelesen und interpretiert werden können.
+
+## Lüfter
+
+Der vorhandene Lüfter wird mit einem Skript unter Python angesprochen. Dabei wird dann die
+Temperatur mit zwei Schellwerten verglichen. Ist die Temperatur höher als der obere
+Schwellwert, so wird der Lüfter eingeschaltet. Dieser bleibt dann solange an, bis der untere
+Schwellwert unterschritten ist. Damit nicht ständig der Lüfter ein-, ausgeschaltet wird,
+sind die Grenzen so zu wählen, dass sich ein kleines Schaltefenster ergibt. Zur Ansteuerung
+der GPIOs wird die Bibliothek `pigpio` genutzt.
+
+Aktuell liegen die Temperaturwerte bei 35°C für das Ausschalten und bei 50°C für das
+Einschalten.
+
+Zum Aktivieren des Skriptes muss noch ein Autostart hinzugefügt werden. Dafür wird in dem
+Ordner `.config/autostart/` eine Datei mit dem Start angelegt. Ist der Ordner nicht
+vorhanden, so kann dieser einfach angelegt werden. Die Datei heißt `clock.desktop`.
+
+```
+[Desktop Entry]
+Type=Application
+Name=Clock
+Exec=/usr/bin/python3 /home/pi/fan_pigpios.py
