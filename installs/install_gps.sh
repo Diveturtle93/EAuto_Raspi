@@ -1,5 +1,4 @@
 #!/bin/bash
-
 declare -a PkgArray=("gpsd-clients" "gpsd" "python-gps" "minicom")
 
 
@@ -35,12 +34,12 @@ confirm
 
 for val in ${PkgArray[@]}; do
 	dpkg -s "$val" &> /dev/null
-        if [ $? -eq 0 ]; then
-                echo "Package $val is installed!"
-        else
-                echo "Package $val is NOT installed!"
-#               apt install $val
-        fi
+		if [ $? -eq 0 ]; then
+			echo "Package $val is installed!"
+		else
+			echo "Package $val is NOT installed!"
+#			apt install $val
+		fi
 done
 
 printf "\nFertig!\n"

@@ -1,7 +1,5 @@
 #!/bin/bash
-
 declare -a PkgArray=("dnsmasq" "hostapd" "iptables")
-
 # Check ob Programm als root ausgefuehrt wird
 user_check() {
 	if [ $(id -u) -ne 0 ]; then
@@ -37,12 +35,12 @@ confirm
 # Schleife um Programme zu installieren
 for val in ${PkgArray[@]}; do
 	dpkg -s "$val" &> /dev/null
-        if [ $? -eq 0 ]; then
-                echo "Package $val is installed!"
-        else
-                echo "Package $val is NOT installed!"
-#               apt install $val
-        fi
+		if [ $? -eq 0 ]; then
+			echo "Package $val is installed!"
+		else
+			echo "Package $val is NOT installed!"
+#			apt install $val
+		fi
 done
 
 # dhcpcd.conf mit Daten beschreiben
@@ -51,7 +49,7 @@ echo 'static ip_address=192.168.4.1/24' >> /etc/dhcpcd.conf
 echo 'nohook wpa_supplicant' >> /etc/dhcpcd.conf
 
 # dhcpcd Dienst neustarten
-systemclt restart dhcpcd
+systemctl restart dhcpcd
 
 # DNS Masq einstellen
 echo '# DHCP-Server aktiv fuer WLAN-Interface' >> /etc/dnsmasq.conf
@@ -121,5 +119,5 @@ echo 'exit 0' >> /etc/rc.local
 printf "\nFertig!\n"
 printf "Der Raspberry Pi muss jetzt rebootet werden\n\n"
 
-sleep(20)
-reboot
+sleep 20
+reboot -n
